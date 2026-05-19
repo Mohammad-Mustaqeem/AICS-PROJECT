@@ -312,7 +312,12 @@ export default function Certificates() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Certificate Number</label>
-                  <input className="form-input" placeholder="e.g. 24AICES001" value={editForm.certificateNumber} onChange={e => setEditForm({...editForm, certificateNumber: e.target.value})} />
+                  <input
+                    className="form-input"
+                    value={editForm.certificateNumber || '—'}
+                    readOnly
+                    style={{ backgroundColor: 'var(--gray-100, #f3f4f6)', cursor: 'not-allowed', color: 'var(--gray-500, #6b7280)' }}
+                  />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Admission Date</label>

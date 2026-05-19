@@ -83,34 +83,39 @@ exports.downloadEnquiryPdf = async (req, res) => {
     const PW = 515; // usable page width (595 - 2*40)
 
     // ── HEADER BAND ────────────────────────────────────────────────────────
-    doc.rect(40, 30, PW, 80).fillAndStroke('#f0f4ff', '#c7d7fa');
+    doc.rect(40, 30, PW, 100).fillAndStroke('#f0f4ff', '#c7d7fa');
 
     const logoPath = path.join(__dirname, '..', 'assets', 'aics-logo.jpg');
     if (fs.existsSync(logoPath)) {
-      doc.image(logoPath, 48, 38, { fit: [120, 60] });
+      doc.image(logoPath, 48, 36, { fit: [120, 78] });
     }
 
     // Vertical divider
-    doc.moveTo(178, 38).lineTo(178, 102).stroke('#c7d7fa');
+    doc.moveTo(178, 36).lineTo(178, 122).stroke('#c7d7fa');
 
-    // Institute name block
+    // Institute name
     doc.fontSize(11).fillColor('#1e3a8a').font('Helvetica-Bold')
-       .text('Academic Institute of Computer Education Society', 188, 42, { width: 220 });
+       .text('Academic Institute of Computer Education Society', 188, 40, { width: 225, lineGap: 2 });
+    // Tagline — 8px gap after title block
     doc.fontSize(7.5).fillColor('#6b7280').font('Helvetica')
-       .text('Empowering Careers Through Quality Education', 188, 64, { width: 220 });
-    doc.fontSize(7).fillColor('#374151')
-       .text('www.aicecomputers.com  |  aicesbjp@gmail.com  |  +91 9945470269', 188, 75, { width: 220 });
+       .text('Empowering Careers Through Quality Education', 188, 70, { width: 225 });
+    // Institute address — 5px gap after tagline
+    doc.fontSize(7).fillColor('#374151').font('Helvetica')
+       .text('Vishnu complex, opp. Sudhir medical. s.s road-vijayapura', 188, 82, { width: 225 });
+    // Contact info — 5px gap after address
+    doc.fontSize(7).fillColor('#374151').font('Helvetica')
+       .text('www.aicecomputers.com  |  aicesbjp@gmail.com  |  +91 9945470269', 188, 94, { width: 225 });
 
     // "ENQUIRY RECORD" badge top-right
-    const badgeX = 430, badgeY = 38;
-    doc.rect(badgeX, badgeY, 125, 36).fillAndStroke('#1e3a8a', '#1e3a8a');
+    const badgeX = 430, badgeY = 36;
+    doc.rect(badgeX, badgeY, 125, 44).fillAndStroke('#1e3a8a', '#1e3a8a');
     doc.fontSize(9).fillColor('#ffffff').font('Helvetica-Bold')
-       .text('ENQUIRY RECORD', badgeX, badgeY + 5, { width: 125, align: 'center' });
+       .text('ENQUIRY RECORD', badgeX, badgeY + 8, { width: 125, align: 'center' });
     doc.fontSize(7.5).fillColor('#93c5fd').font('Helvetica')
-       .text(`Date: ${fmt(new Date())}`, badgeX, badgeY + 22, { width: 125, align: 'center' });
+       .text(`Date: ${fmt(new Date())}`, badgeX, badgeY + 28, { width: 125, align: 'center' });
 
     doc.moveDown(0);
-    let y = 125;
+    let y = 140;
 
     // ── SECTION HELPER ─────────────────────────────────────────────────────
     const sectionTitle = (title, startY) => {

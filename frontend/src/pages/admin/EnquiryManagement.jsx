@@ -36,6 +36,7 @@ export default function EnquiryManagement() {
   const showAlert = (type, message) => { setAlert({ type, message }); setTimeout(() => setAlert(null), 4000); };
 
   const filtered = enquiries.filter(e => {
+    if (e.status === 'converted') return false; // admitted students leave the enquiry list
     const name = `${e.firstName} ${e.fatherName} ${e.lastName}`.toLowerCase();
     const matchSearch = !search || name.includes(search.toLowerCase()) || e.phoneNumber?.includes(search);
     const matchFilter = filter === 'all' || e.status === filter;
@@ -118,7 +119,7 @@ export default function EnquiryManagement() {
     setShowModal(true);
   };
 
-  const counts = { all: enquiries.length, new: enquiries.filter(e => e.status === 'new').length, contacted: enquiries.filter(e => e.status === 'contacted').length };
+  const counts = { all: enquiries.filter(e => e.status !== 'converted').length, new: enquiries.filter(e => e.status === 'new').length, contacted: enquiries.filter(e => e.status === 'contacted').length };
 
   const handleMarkContacted = async (enquiryId) => {
     try {
